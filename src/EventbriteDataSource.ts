@@ -14,9 +14,9 @@ export class EventbriteDataSource implements EventDataSource {
                 method: 'GET',
                 uri: `${this.host}/v3/events/search/`,
                 qs: {
-                    'location.latitude': '40.737712',
-                    'location.longitude': '-73.992031',
-                    'location.within': '10mi',
+                    'location.latitude': eventQuery.latitude,
+                    'location.longitude': eventQuery.longitude,
+                    'location.within': `${eventQuery.radius}mi`,
                     q: eventQuery.query,
                     'start_date.range_start': localDatetime(eventQuery.startDate),
                     'start_date.range_end': localDatetime(eventQuery.endDate),

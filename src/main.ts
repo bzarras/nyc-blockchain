@@ -1,33 +1,17 @@
 import { config as dotenvConfig } from 'dotenv';
 dotenvConfig();
 
-import { EventData, EventQuery } from './EventDataSource'
-import { EventSerializer } from './EventSerializer';
-import { MeetupDataSource } from './MeetupDataSource';
-import { chronologicalEventComparator } from './utils';
-import { EventbriteDataSource } from './EventbriteDataSource';
+import program from 'commander';
+import { EventReporter } from './EventReporter'
 
-reportResults();
+program
+    .version('0.1.0')
+    .option('-s, --start <start-date>', 'The start date of the search (inclusive), YYYY-MM-DD')
+    .option('-e, --end <end-date>', 'The end date of the search (exclusive), YYYY-MM-DD')
+    .option('-q, --query <query>', 'The search term for the type of event')
+    .parse(process.argv);
 
-async function reportResults() {
-    const dataSources = [
-        new MeetupDataSource(),
-        new EventbriteDataSource()
-    ];
-    const eventQuery: EventQuery = {
-        startDate: new Date('2018-05-28'),
-        endDate: new Date ('2018-06-02'),
-        query: 'blockchain',
-    };
-    let events: EventData[] = [];
-    
-    console.log(EventSerializer.getSerializedHeaders());
-    
-    for (const dataSource of dataSources) {
-        const eventData = await dataSource.fetchEvents(eventQuery);
-        events = events.concat(eventData);
-    }
-    
-    const sortedEventData = events.sort(chronologicalEventComparator);
-    sortedEventData.forEach(event => console.log(EventSerializer.serializeEvent(event)));
+if (program.start && program.end && program.query) {
+    const reporter = new EventReporter(program.start, program.end, program.query);
+    reporter.reportResults();
 }

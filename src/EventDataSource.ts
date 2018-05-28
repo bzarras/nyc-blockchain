@@ -7,6 +7,9 @@ export interface EventQuery {
     startDate: Date;
     endDate: Date;
     query: string;
+    latitude: string;
+    longitude: string;
+    radius: string;
 }
 
 export interface EventData {

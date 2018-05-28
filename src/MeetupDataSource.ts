@@ -17,9 +17,9 @@ export class MeetupDataSource implements EventDataSource {
                 uri: `${this.host}/find/upcoming_events`,
                 qs: {
                     key: process.env['MEETUP_API_KEY'],
-                    lat: '40.737712', // nyc lat/long near union square
-                    lon: '-73.992031',
-                    radius: '10',
+                    lat: eventQuery.latitude,
+                    lon: eventQuery.longitude,
+                    radius: eventQuery.radius,
                     text: eventQuery.query,
                     start_date_range: startDate,
                     end_date_range: endDate
