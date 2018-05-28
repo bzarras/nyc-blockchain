@@ -2,9 +2,9 @@
 
 # ============ search parameters ================
 # - Edit these parameters to customize the search:
-output_file=events.tsv
-start_date=2018-05-31
-end_date=2018-06-03
+output_file=events_05.28-06.01.tsv
+start_date=2018-05-28
+end_date=2018-06-02
 search_term=blockchain
 # ===============================================
 
@@ -13,7 +13,7 @@ search_term=blockchain
 npm run build
 node build/main.js \
     --start $start_date \
-    --end $end_date\
+    --end $end_date \
     --query $search_term \
     > $output_file
 
