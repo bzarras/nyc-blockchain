@@ -4,6 +4,7 @@ import rp from 'request-promise';
 
 export class EventbriteDataSource implements EventDataSource {
     readonly host: string;
+
     constructor() {
         this.host = process.env['EVENTBRITE_HOST'] as string;   
     }

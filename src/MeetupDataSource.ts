@@ -4,6 +4,7 @@ import rp from 'request-promise';
 
 export class MeetupDataSource implements EventDataSource {
     readonly host: string;
+
     constructor() {
         this.host = process.env['MEETUP_HOST'] as string;
     }

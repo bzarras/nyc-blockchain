@@ -1,4 +1,4 @@
-import { EventData, EventQuery } from './EventDataSource';
+import { EventData, EventQuery, EventDataSource } from './EventDataSource';
 import { EventSerializer } from './EventSerializer';
 import { MeetupDataSource } from './MeetupDataSource';
 import { EventbriteDataSource } from './EventbriteDataSource';
@@ -8,18 +8,19 @@ export class EventReporter {
     private startDate: Date;
     private endDate: Date;
     private query: string;
+    private dataSources: EventDataSource[];
     
     constructor(startDate: string, endDate: string, query: string) {
         this.startDate = new Date(startDate);
         this.endDate = new Date(endDate);
         this.query = query;
-    }
-    
-    async reportResults() {
-        const dataSources = [
+        this.dataSources = [
             new MeetupDataSource(),
             new EventbriteDataSource()
         ];
+    }
+
+    async reportResults() {
         const eventQuery: EventQuery = {
             startDate: this.startDate,
             endDate: this.endDate,
@@ -32,7 +33,7 @@ export class EventReporter {
         
         console.log(EventSerializer.getSerializedHeaders());
         
-        for (const dataSource of dataSources) {
+        for (const dataSource of this.dataSources) {
             const eventData = await dataSource.fetchEvents(eventQuery);
             events = events.concat(eventData);
         }
