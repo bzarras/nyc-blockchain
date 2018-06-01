@@ -2,9 +2,9 @@
 
 # ============ search parameters ================
 # - Edit these parameters to customize the search:
-output_file=events_05.28-06.01.tsv
-start_date=2018-05-28
-end_date=2018-06-02
+output_file=events_06.04-06.08.tsv
+start_date=2018-06-04
+end_date=2018-06-09
 search_term=blockchain
 # ===============================================
 
