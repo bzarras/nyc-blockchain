@@ -29,7 +29,8 @@ export class MeetupDataSource implements EventDataSource {
             });
             const city: string = response.city.city;
             const state: string = response.city.state;
-            const eventData = response.events.map(event => ({
+            const eventData: EventData[] = response.events.map(event => ({
+                id: event.id,
                 name: event.name,
                 source: EventWebsite.MEETUP,
                 group: event.group.name,

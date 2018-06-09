@@ -13,6 +13,7 @@ export interface EventQuery {
 }
 
 export interface EventData {
+    id: string;
     name: string;
     source: EventWebsite;
     group?: string;

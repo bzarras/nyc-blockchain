@@ -12,6 +12,7 @@ program
     .parse(process.argv);
 
 if (program.start && program.end && program.query) {
-    const reporter = new EventReporter(program.start, program.end, program.query);
+    const queries = (program.query as string).split(',');
+    const reporter = new EventReporter(program.start as string, program.end as string, queries);
     reporter.reportResults();
 }

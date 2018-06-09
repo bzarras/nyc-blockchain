@@ -7,13 +7,13 @@ import { chronologicalEventComparator } from './utils';
 export class EventReporter {
     private startDate: Date;
     private endDate: Date;
-    private query: string;
+    private queries: string[];
     private dataSources: EventDataSource[];
     
-    constructor(startDate: string, endDate: string, query: string) {
+    constructor(startDate: string, endDate: string, queries: string[]) {
         this.startDate = new Date(startDate);
         this.endDate = new Date(endDate);
-        this.query = query;
+        this.queries = queries;
         this.dataSources = [
             new MeetupDataSource(),
             new EventbriteDataSource()
@@ -21,22 +21,26 @@ export class EventReporter {
     }
 
     async reportResults() {
-        const eventQuery: EventQuery = {
+        const eventQueries: EventQuery[] = this.queries.map(query => ({
             startDate: this.startDate,
             endDate: this.endDate,
-            query: this.query,
+            query,
             latitude: '40.737712', // lat-long roughly near union square
             longitude: '-73.992031',
             radius: '10' // miles
-        };
-        let events: EventData[] = [];
+        }));
+        let eventsMap: Map<string, EventData> = new Map();
         
         console.log(EventSerializer.getSerializedHeaders());
         
         for (const dataSource of this.dataSources) {
-            const eventData = await dataSource.fetchEvents(eventQuery);
-            events = events.concat(eventData);
+            for(const eventQuery of eventQueries) {
+                const eventData = await dataSource.fetchEvents(eventQuery);
+                eventData.forEach(event => eventsMap.set(event.id, event));
+            }
         }
+
+        const events: EventData[] = Array.from(eventsMap.values());
         
         const sortedEventData = events.sort(chronologicalEventComparator);
         sortedEventData.forEach(event => console.log(EventSerializer.serializeEvent(event)));

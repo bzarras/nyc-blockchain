@@ -28,16 +28,21 @@ export class EventbriteDataSource implements EventDataSource {
                 },
                 json: true
             });
-            const eventData: EventData[] = response.events.map(event => ({
-                name: event.name.text,
-                source: EventWebsite.EVENTBRITE,
-                time: new Date(event.start.utc),
-                link: event.url
-            }));
+            const eventData: EventData[] = response.events.map(event => this.parseRawEvent(event));
             return eventData;
         } catch (e) {
             console.log(e);
             return [];
+        }
+    }
+
+    private parseRawEvent(rawEvent: any): EventData {
+        return {
+            id: `id_${rawEvent.url}`,
+            name: rawEvent.name.text,
+            source: EventWebsite.EVENTBRITE,
+            time: new Date(rawEvent.start.utc),
+            link: rawEvent.url
         }
     }
 }
