@@ -29,7 +29,7 @@ To run the program, a convenient shell script is provided via the file
 - **output_file**: The name of the output file. Should end in .tsv
 - **start_date**: The start date of the search. Should be in format YYYY-MM-DD. Search will include this date
 - **end_date**: The end date of the search. YYYY-MM-DD. Search will include date immediately prior to this date, but exclude this date itself
-- **search_term**: The keyword that you want to search for. Something like "blockchain"
+- **search_term**: A comma-separated list of terms that you want to search for. Something like "blockchain,crypto,bitcoin"
 
 Configure the parameters to your liking, then from a shell, run this:
 ```
